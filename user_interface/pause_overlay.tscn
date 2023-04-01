@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://22al3bhe56tx"]
+
+[ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="1_170x4"]
+[ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_kll1m"]
+[ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="2_6qsh3"]
+[ext_resource type="Script" path="res://user_interface/pause_overlay.gd" id="2_pp5k4"]
+
+[node name="PauseOverlay" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_kll1m")
+script = ExtResource("2_pp5k4")
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.592157)
+
+[node name="PausedMenu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -309.0
+offset_top = -337.0
+offset_right = 306.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="PausedMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="PausedMenu"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ContinueButton" type="Button" parent="PausedMenu/ButtonsContainer"]
+layout_mode = 2
+text = "Continue"
+
+[node name="SettingsButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("1_170x4")]
+layout_mode = 2
+text = "Settings"
+next_scene_path = "res://screens/settings_screen.tscn"
+
+[node name="MainMenuButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("1_170x4")]
+layout_mode = 2
+text = "Main Menu"
+next_scene_path = "res://screens/main_screen.tscn"
+
+[node name="QuitButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("2_6qsh3")]
+layout_mode = 2
+
+[connection signal="pressed" from="PausedMenu/ButtonsContainer/ContinueButton" to="." method="_on_continue_button_pressed"]

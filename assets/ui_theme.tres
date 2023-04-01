@@ -1,8 +1,11 @@
 [gd_resource type="Theme" format=3 uid="uid://ctbox2lr6umai"]
 
 [resource]
+default_font_size = 24
+Button/font_sizes/font_size = 40
 Label/font_sizes/font_size = 40
 MarginContainer/constants/margin_bottom = 70
 MarginContainer/constants/margin_left = 70
 MarginContainer/constants/margin_right = 70
 MarginContainer/constants/margin_top = 70
+OptionButton/font_sizes/font_size = 40

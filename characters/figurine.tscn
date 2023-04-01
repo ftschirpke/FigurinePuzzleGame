@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://gyxdykw1xmwu"]
+
+[ext_resource type="Texture2D" uid="uid://b8ct25j4r2n3j" path="res://assets/robotsv0.png" id="1_g6rkn"]
+[ext_resource type="Script" path="res://characters/figurine.gd" id="2_3ux4y"]
+
+[node name="Figurine" type="Sprite2D"]
+texture = ExtResource("1_g6rkn")
+centered = false
+hframes = 4
+vframes = 4
+script = ExtResource("2_3ux4y")
+
+[node name="SelectFigurineButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_right = 60.0
+offset_bottom = 60.0
+
+[connection signal="pressed" from="SelectFigurineButton" to="." method="_on_select_figurine_button_pressed"]

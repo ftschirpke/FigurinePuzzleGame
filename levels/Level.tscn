@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dasv1jrfp1mp4"]
+[gd_scene load_steps=13 format=3 uid="uid://dyrrt66g87cl5"]
 
-[ext_resource type="Script" path="res://levels/level.gd" id="1_fd85c"]
-[ext_resource type="Texture2D" uid="uid://l81otf8ategx" path="res://assets/tilemapv3_1.png" id="2_me5gp"]
-[ext_resource type="Texture2D" uid="uid://of26udlvul7g" path="res://assets/targetsv0.png" id="3_xswlw"]
-[ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/theme.tres" id="4_wex5p"]
-[ext_resource type="Texture2D" uid="uid://b8ct25j4r2n3j" path="res://assets/robotsv0.png" id="5_awaxh"]
+[ext_resource type="Script" path="res://levels/level.gd" id="1_an0iv"]
+[ext_resource type="Texture2D" uid="uid://l81otf8ategx" path="res://assets/tilemapv3_1.png" id="2_wwi60"]
+[ext_resource type="Texture2D" uid="uid://of26udlvul7g" path="res://assets/targetsv0.png" id="3_3vohr"]
+[ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="4_siju8"]
+[ext_resource type="Texture2D" uid="uid://b8ct25j4r2n3j" path="res://assets/robotsv0.png" id="5_fjqjd"]
+[ext_resource type="PackedScene" uid="uid://22al3bhe56tx" path="res://user_interface/pause_overlay.tscn" id="6_bi04v"]
 
 [sub_resource type="Gradient" id="Gradient_bjjju"]
 interpolation_mode = 1
@@ -15,7 +16,7 @@ colors = PackedColorArray(0.160784, 0, 0, 1)
 gradient = SubResource("Gradient_bjjju")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x3dst"]
-texture = ExtResource("2_me5gp")
+texture = ExtResource("2_wwi60")
 texture_region_size = Vector2i(60, 60)
 0:0/0 = 0
 1:0/0 = 0
@@ -87,7 +88,7 @@ tile_size = Vector2i(60, 60)
 sources/0 = SubResource("TileSetAtlasSource_x3dst")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ty066"]
-texture = ExtResource("3_xswlw")
+texture = ExtResource("3_3vohr")
 texture_region_size = Vector2i(60, 60)
 0:0/0 = 0
 1:0/0 = 0
@@ -103,7 +104,7 @@ tile_size = Vector2i(60, 60)
 sources/1 = SubResource("TileSetAtlasSource_ty066")
 
 [node name="level" type="Node2D"]
-script = ExtResource("1_fd85c")
+script = ExtResource("1_an0iv")
 
 [node name="TestBackgroundv1" type="TextureRect" parent="."]
 offset_right = 1920.0
@@ -125,7 +126,7 @@ format = 2
 offset_left = 1080.0
 offset_right = 1920.0
 offset_bottom = 1080.0
-theme = ExtResource("4_wex5p")
+theme = ExtResource("4_siju8")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -163,7 +164,7 @@ layout_mode = 2
 
 [node name="SelectedFigurine" type="Sprite2D" parent="MarginContainer/VBox/SelectedFigurineContainer/Control"]
 position = Vector2(30, 30)
-texture = ExtResource("5_awaxh")
+texture = ExtResource("5_fjqjd")
 hframes = 4
 vframes = 4
 
@@ -175,3 +176,8 @@ layout_mode = 2
 text = "Congratulations,
 you solved this puzzle!"
 horizontal_alignment = 1
+
+[node name="UserInterface" type="CanvasLayer" parent="."]
+
+[node name="PauseOverlay" parent="UserInterface" instance=ExtResource("6_bi04v")]
+visible = false

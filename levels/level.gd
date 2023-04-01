@@ -1,16 +1,22 @@
 extends Node2D
 
-var Robot = preload("res://characters/Robot.tscn")
+@onready var congratulations_label: Label = $MarginContainer/VBox/MarginContainer/CongratulationsLabel
+@onready var moves_made_label: Label = $MarginContainer/VBox/MovesMadeContainer/MovesMade
+@onready var targets_left_label: Label = $MarginContainer/VBox/TargetsLeftContainer/TargetsLeft
+@onready var selected_figurine_sprite: Sprite2D = $MarginContainer/VBox/SelectedFigurineContainer/Control/SelectedFigurine
+
+var figurine = preload("res://characters/figurine.tscn")
 
 var grid: Grid = Grid.new()
-var robots: Array
-var selected_robot
+var figurines: Array
+var selected_figurine
 var targets: Dictionary
 
 var easy_target_tiles: Array[Vector2]
 var normal_target_tiles: Array[Vector2]
 
-var amount_of_moves: int = 0
+var moves_made: int = 0:
+    set = _set_moves_made
 
 var ignore_input: bool = false
 
@@ -19,7 +25,7 @@ var will_hit_target_at: Vector2 = Vector2.ZERO
 
 enum Difficulty { EASY, NORMAL, HARD }
 
-enum GridPos { EMPTY, WALL, ROBOT }
+enum GridPos { EMPTY, WALL, figurine }
 
 class Grid:
     var data: Array
@@ -111,10 +117,10 @@ class Grid:
     func setVec(vec: Vector2, val: GridPos) -> void:
         data[vec.y][vec.x] = val
         
-    func requestMove(robot_pos: Vector2, direction: Vector2) -> Vector2:
-        if getVec(robot_pos) == GridPos.ROBOT:
-            #setVec(robot_pos, GridPos.EMPTY)
-            requested_movement_start = robot_pos
+    func requestMove(figurine_pos: Vector2, direction: Vector2) -> Vector2:
+        if getVec(figurine_pos) == GridPos.figurine:
+            #setVec(figurine_pos, GridPos.EMPTY)
+            requested_movement_start = figurine_pos
             
             var is_wall_ahead
             if direction.normalized() == Vector2.UP:
@@ -126,18 +132,18 @@ class Grid:
             elif direction.normalized() == Vector2.RIGHT:
                 is_wall_ahead = func(vec: Vector2) -> bool: return vwalls[vec.y][vec.x]
     
-            while not is_wall_ahead.call(robot_pos) and getVec(robot_pos + direction) == GridPos.EMPTY:
-                robot_pos += direction
+            while not is_wall_ahead.call(figurine_pos) and getVec(figurine_pos + direction) == GridPos.EMPTY:
+                figurine_pos += direction
 
-            requested_movement_end = robot_pos
-            #setVec(robot_pos, GridPos.ROBOT)
-        return robot_pos
+            requested_movement_end = figurine_pos
+            #setVec(figurine_pos, GridPos.figurine)
+        return figurine_pos
 
-    func moveRobot(start: Vector2, end: Vector2) -> bool:
+    func movefigurine(start: Vector2, end: Vector2) -> bool:
         if start != requested_movement_start or end != requested_movement_end:
             return false
         setVec(start, GridPos.EMPTY)
-        setVec(end, GridPos.ROBOT)
+        setVec(end, GridPos.figurine)
         return true
 
     func wallAbove(x: int, y: int) -> bool:
@@ -250,16 +256,16 @@ func check_targetability(x: int, y: int) -> void:
 
 func _ready() -> void:
     # seed(1234)
-    $MarginContainer/VBox/MarginContainer/CongratulationsLabel.visible = false
+    congratulations_label.visible = false
     grid.generate_random_walls()
     init_tile_map()
-    spawn_robots()
+    spawn_figurines()
     var target_amount: int = randi_range(1, 5)
     for i in range(target_amount):
         spawn_target(Difficulty.NORMAL)
     update_target_amount()
 
-func spawn_robots() -> void:
+func spawn_figurines() -> void:
     var amount: int = randi_range(2, 6)
     for i in range(amount):
         var x: int = randi_range(1, 16)
@@ -267,17 +273,17 @@ func spawn_robots() -> void:
         while grid.getXY(x, y) != GridPos.EMPTY:
             x = randi_range(1, 16)
             y = randi_range(1, 16)
-        var new_robot = Robot.instantiate()
-        add_child(new_robot)
-        robots.append(new_robot)
-        new_robot.id = i
-        new_robot.deselect()
-        new_robot.position = Vector2(x,y) * 60
-        new_robot.robot_selected.connect(_on_robot_selected)
-        new_robot.robot_stops_moving.connect(_on_robot_stops_moving)
-        grid.setXY(x, y, GridPos.ROBOT)
-    selected_robot = robots[0]
-    selected_robot.select()
+        var new_figurine = figurine.instantiate()
+        add_child(new_figurine)
+        figurines.append(new_figurine)
+        new_figurine.id = i
+        new_figurine.deselect()
+        new_figurine.position = Vector2(x,y) * 60
+        new_figurine.figurine_selected.connect(_on_figurine_selected)
+        new_figurine.figurine_stops_moving.connect(_on_figurine_stops_moving)
+        grid.setXY(x, y, GridPos.figurine)
+    selected_figurine = figurines[0]
+    selected_figurine.select()
 
 func get_random_target_pos(difficulty: Difficulty) -> Vector2:
     if difficulty == Difficulty.EASY:
@@ -292,8 +298,8 @@ func get_random_target_pos(difficulty: Difficulty) -> Vector2:
     
 
 func spawn_target(difficulty: Difficulty) -> void:
-    var amount_of_robots: int = len(robots)
-    var target_id: int = randi_range(0, amount_of_robots) - 1
+    var amount_of_figurines: int = len(figurines)
+    var target_id: int = randi_range(0, amount_of_figurines) - 1
 
     var target_pos: Vector2 = get_random_target_pos(difficulty)
     while grid.getVec(target_pos) != GridPos.EMPTY:
@@ -312,17 +318,17 @@ func clear_target(target_pos: Vector2) -> void:
     $TargetTiles.erase_cell(0, target_pos)
     
 func update_target_amount() -> void:
-    $MarginContainer/VBox/TargetsLeftContainer/TargetsLeft.text = str(len(targets))
+    targets_left_label.text = str(len(targets))
 
-func _on_robot_selected(robot_id: int) -> void:
+func _on_figurine_selected(figurine_id: int) -> void:
     if ignore_input:
         return
-    selected_robot.deselect()
-    selected_robot = robots[robot_id]
-    selected_robot.select()
-    $MarginContainer/VBox/SelectedFigurineContainer/Control/SelectedFigurine.frame = robot_id
+    selected_figurine.deselect()
+    selected_figurine = figurines[figurine_id]
+    selected_figurine.select()
+    selected_figurine_sprite.frame = figurine_id
 
-func _on_robot_stops_moving(robot_id: int) -> void:
+func _on_figurine_stops_moving(figurine_id: int) -> void:
     if will_hit_target:
         clear_target(will_hit_target_at)
         targets.erase(will_hit_target_at)
@@ -332,27 +338,35 @@ func _on_robot_stops_moving(robot_id: int) -> void:
             return
     ignore_input = false
     
-func update_moves_made(new_value: int) -> void:
-    $MarginContainer/VBox/MovesMadeContainer/MovesMade.text = str(new_value)
+func _set_moves_made(new_value: int) -> void:
+    moves_made = new_value
+    moves_made_label.text = str(new_value)
 
 func finish_puzzle(solved: bool) -> void:
     if solved:
-        $MarginContainer/VBox/MarginContainer/CongratulationsLabel.visible = true
+        congratulations_label.visible = true
 
 func grid_pos_to_string(grid_pos: GridPos) -> String:
     if grid_pos == GridPos.EMPTY:
         return "EMPTY"
-    if grid_pos == GridPos.ROBOT:
-        return "ROBOT"
+    if grid_pos == GridPos.figurine:
+        return "figurine"
     if grid_pos == GridPos.WALL:
         return "WALL"
     return "NONE"
 
-func check_target_hit(new_robot_grid_pos: Vector2) -> bool:
-    if new_robot_grid_pos in targets:
-        var target_id = targets[new_robot_grid_pos]
-        return target_id < 0 or selected_robot.id == target_id
+func check_target_hit(new_figurine_grid_pos: Vector2) -> bool:
+    if new_figurine_grid_pos in targets:
+        var target_id = targets[new_figurine_grid_pos]
+        return target_id < 0 or selected_figurine.id == target_id
     return false
+
+func _input(event: InputEvent) -> void:
+    if ignore_input:
+        return
+    if event.is_action_pressed("switch_figurine"):
+        var new_figurine_id: int = (selected_figurine.id + 1) % len(figurines)
+        _on_figurine_selected(new_figurine_id)
 
 func _process(delta: float) -> void:
     if ignore_input:
@@ -361,19 +375,18 @@ func _process(delta: float) -> void:
     if abs(input_vec.x + input_vec.y) != 1:
         # diagonal movement not allowed
         return
-    var robot_grid_pos: Vector2 = selected_robot.position / 60
-    var new_robot_grid_pos: Vector2 = grid.requestMove(robot_grid_pos, input_vec)
-    if new_robot_grid_pos != robot_grid_pos:
-        will_hit_target = check_target_hit(new_robot_grid_pos)
-        if not grid.moveRobot(robot_grid_pos, new_robot_grid_pos):
+    var figurine_grid_pos: Vector2 = selected_figurine.position / 60
+    var new_figurine_grid_pos: Vector2 = grid.requestMove(figurine_grid_pos, input_vec)
+    if new_figurine_grid_pos != figurine_grid_pos:
+        will_hit_target = check_target_hit(new_figurine_grid_pos)
+        if not grid.movefigurine(figurine_grid_pos, new_figurine_grid_pos):
             # movement failed for some reason
             will_hit_target = false
             return
         if will_hit_target:
-            will_hit_target_at = new_robot_grid_pos
-        selected_robot.move(new_robot_grid_pos * 60)
+            will_hit_target_at = new_figurine_grid_pos
+        selected_figurine.move(new_figurine_grid_pos * 60)
         ignore_input = true
-        amount_of_moves += 1
-        update_moves_made(amount_of_moves)
+        moves_made += 1
         
     

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://el4iqjqvdch5"]
+
+[ext_resource type="Script" path="res://user_interface/change_scene_button.gd" id="1_fj545"]
+
+[node name="ChangeSceneButton" type="Button"]
+text = "Change Scene"
+script = ExtResource("1_fj545")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

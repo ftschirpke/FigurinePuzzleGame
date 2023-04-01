@@ -1,0 +1,139 @@
+[gd_scene load_steps=8 format=3 uid="uid://fqwdklrh0vmr"]
+
+[ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_puwdp"]
+[ext_resource type="PackedScene" uid="uid://dbymyrhou3o5x" path="res://user_interface/ui_background.tscn" id="2_t01c0"]
+[ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="3_e3h0d"]
+[ext_resource type="Script" path="res://screens/SettingsMenu.gd" id="3_g0jso"]
+[ext_resource type="Script" path="res://screens/video_settings.gd" id="4_2dpqc"]
+[ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="4_afnu8"]
+[ext_resource type="Script" path="res://screens/GameplaySettings.gd" id="7_6tjhf"]
+
+[node name="SettingsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_puwdp")
+
+[node name="TextureRect" parent="." instance=ExtResource("2_t01c0")]
+layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+text = "Settings"
+
+[node name="SettingsMenu" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("3_g0jso")
+
+[node name="SettingsCategories" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu"]
+layout_mode = 2
+
+[node name="VideoSettings" type="Button" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsCategories"]
+layout_mode = 2
+text = "Video"
+
+[node name="ChangeSceneButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsCategories" instance=ExtResource("4_afnu8")]
+layout_mode = 2
+text = "Main Menu"
+next_scene_path = "res://screens/main_screen.tscn"
+
+[node name="QuitButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsCategories" instance=ExtResource("3_e3h0d")]
+layout_mode = 2
+
+[node name="SettingsValues" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu"]
+layout_mode = 2
+
+[node name="VideoSettings" type="GridContainer" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues"]
+layout_mode = 2
+columns = 2
+script = ExtResource("4_2dpqc")
+
+[node name="ScreenModeLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+layout_mode = 2
+text = "Mode"
+
+[node name="ScreenModeButton" type="OptionButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "Fullscreen"
+popup/item_0/id = 0
+popup/item_1/text = "Borderless Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "Windowed"
+popup/item_2/id = 2
+popup/item_3/text = "Borderless Windowed"
+popup/item_3/id = 3
+
+[node name="AspectRatioLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+layout_mode = 2
+text = "Aspect Ratio"
+
+[node name="AspectRatioButton" type="OptionButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+layout_mode = 2
+
+[node name="GameplaySettings" type="GridContainer" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues"]
+layout_mode = 2
+columns = 3
+script = ExtResource("7_6tjhf")
+
+[node name="FigurineMoveSpeedLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
+layout_mode = 2
+text = "Figurine Speed: "
+
+[node name="FigurineMoveSpeedValueLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
+layout_mode = 2
+text = "600"
+horizontal_alignment = 2
+
+[node name="FigurineMoveSpeedSlider" type="HSlider" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 100.0
+max_value = 10000.0
+step = 50.0
+value = 600.0
+exp_edit = true
+
+[node name="SettingsDescriptions" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScreenModeDescription" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsDescriptions"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Fullscreen: Game fills the whole screen (exclusive)
+Borderless Fullscreen: Game fills the whole screen (non-exclusive)
+Windowed: Play the game in a window
+Borderless Windowed: Play the game in a borderless window"
+
+[node name="AspectRatioDescription" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsDescriptions"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Caution: This game is designed for screen with an 16:9 aspect ratio with the resolution 1920x1080 in mind. While other resolutions and aspect ratios work, they might not look nearly as good. Especially lower resolutions will lead to a great reduction in quality."
+autowrap_mode = 2
+
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" method="_on_screen_mode_button_item_selected"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_screen_mode_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_screen_mode_mouse_exited"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/AspectRatioButton" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" method="_on_aspect_ratio_button_item_selected"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/AspectRatioButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_aspect_ratio_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/AspectRatioButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_aspect_ratio_mouse_exited"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineMoveSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings" method="_on_figurine_move_speed_slider_value_changed"]
