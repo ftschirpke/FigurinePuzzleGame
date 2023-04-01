@@ -2,5 +2,9 @@
 .godot/
 **.import
 
+# export specific ignores
+**.cfg
+**.exe
+
 # ignore files for asset creation
 **.kra
