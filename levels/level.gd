@@ -18,14 +18,15 @@ var normal_target_tiles: Array[Vector2]
 var moves_made: int = 0:
     set = _set_moves_made
 
-var ignore_input: bool = false
+var ignore_input: bool = false:
+    set = _set_ignore_input
 
 var will_hit_target: bool = false
 var will_hit_target_at: Vector2 = Vector2.ZERO
 
 enum Difficulty { EASY, NORMAL, HARD }
 
-enum GridPos { EMPTY, WALL, figurine }
+enum GridPos { EMPTY, WALL, FIGURINE }
 
 class Grid:
     var data: Array
@@ -118,8 +119,7 @@ class Grid:
         data[vec.y][vec.x] = val
         
     func requestMove(figurine_pos: Vector2, direction: Vector2) -> Vector2:
-        if getVec(figurine_pos) == GridPos.figurine:
-            #setVec(figurine_pos, GridPos.EMPTY)
+        if getVec(figurine_pos) == GridPos.FIGURINE:
             requested_movement_start = figurine_pos
             
             var is_wall_ahead
@@ -136,14 +136,13 @@ class Grid:
                 figurine_pos += direction
 
             requested_movement_end = figurine_pos
-            #setVec(figurine_pos, GridPos.figurine)
         return figurine_pos
 
     func movefigurine(start: Vector2, end: Vector2) -> bool:
         if start != requested_movement_start or end != requested_movement_end:
             return false
         setVec(start, GridPos.EMPTY)
-        setVec(end, GridPos.figurine)
+        setVec(end, GridPos.FIGURINE)
         return true
 
     func wallAbove(x: int, y: int) -> bool:
@@ -281,9 +280,10 @@ func spawn_figurines() -> void:
         new_figurine.position = Vector2(x,y) * 60
         new_figurine.figurine_selected.connect(_on_figurine_selected)
         new_figurine.figurine_stops_moving.connect(_on_figurine_stops_moving)
-        grid.setXY(x, y, GridPos.figurine)
+        grid.setXY(x, y, GridPos.FIGURINE)
     selected_figurine = figurines[0]
     selected_figurine.select()
+    turn_on_movement_arrows()
 
 func get_random_target_pos(difficulty: Difficulty) -> Vector2:
     if difficulty == Difficulty.EASY:
@@ -320,12 +320,21 @@ func clear_target(target_pos: Vector2) -> void:
 func update_target_amount() -> void:
     targets_left_label.text = str(len(targets))
 
+func turn_on_movement_arrows() -> void:
+    var pos: Vector2 = selected_figurine.position / 60
+    var up: bool = not grid.wallAbove(pos.x, pos.y) and grid.getVec(pos + Vector2.UP) != GridPos.FIGURINE
+    var left: bool = not grid.wallLeft(pos.x, pos.y) and grid.getVec(pos + Vector2.LEFT) != GridPos.FIGURINE
+    var right: bool = not grid.wallRight(pos.x, pos.y) and grid.getVec(pos + Vector2.RIGHT) != GridPos.FIGURINE
+    var down: bool = not grid.wallBelow(pos.x, pos.y) and grid.getVec(pos + Vector2.DOWN) != GridPos.FIGURINE
+    selected_figurine.movement_arrows.set_visibility(up, left, right, down)
+
 func _on_figurine_selected(figurine_id: int) -> void:
     if ignore_input:
         return
     selected_figurine.deselect()
     selected_figurine = figurines[figurine_id]
     selected_figurine.select()
+    turn_on_movement_arrows()
     selected_figurine_sprite.frame = figurine_id
 
 func _on_figurine_stops_moving(figurine_id: int) -> void:
@@ -349,8 +358,8 @@ func finish_puzzle(solved: bool) -> void:
 func grid_pos_to_string(grid_pos: GridPos) -> String:
     if grid_pos == GridPos.EMPTY:
         return "EMPTY"
-    if grid_pos == GridPos.figurine:
-        return "figurine"
+    if grid_pos == GridPos.FIGURINE:
+        return "FIGURINE"
     if grid_pos == GridPos.WALL:
         return "WALL"
     return "NONE"
@@ -368,13 +377,7 @@ func _input(event: InputEvent) -> void:
         var new_figurine_id: int = (selected_figurine.id + 1) % len(figurines)
         _on_figurine_selected(new_figurine_id)
 
-func _process(delta: float) -> void:
-    if ignore_input:
-        return
-    var input_vec: Vector2 = Input.get_vector("mvleft", "mvright", "mvup", "mvdown")
-    if abs(input_vec.x + input_vec.y) != 1:
-        # diagonal movement not allowed
-        return
+func move_input_pressed(input_vec: Vector2) -> void:
     var figurine_grid_pos: Vector2 = selected_figurine.position / 60
     var new_figurine_grid_pos: Vector2 = grid.requestMove(figurine_grid_pos, input_vec)
     if new_figurine_grid_pos != figurine_grid_pos:
@@ -388,5 +391,20 @@ func _process(delta: float) -> void:
         selected_figurine.move(new_figurine_grid_pos * 60)
         ignore_input = true
         moves_made += 1
+
+func _set_ignore_input(value: bool) -> void:
+    ignore_input = value
+    if ignore_input:
+        selected_figurine.movement_arrows.set_visibility()
+    else:
+        turn_on_movement_arrows()
+
+func _process(delta: float) -> void:
+    if ignore_input:
+        return
+    var input_vec: Vector2 = Input.get_vector("mvleft", "mvright", "mvup", "mvdown")
+    if abs(input_vec.x + input_vec.y) == 1:
+        # diagonal movement not allowed
+        move_input_pressed(input_vec)
         
     

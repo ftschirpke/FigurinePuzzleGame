@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dyrrt66g87cl5"]
+[gd_scene load_steps=13 format=3 uid="uid://r0am7lxu8axj"]
 
 [ext_resource type="Script" path="res://levels/level.gd" id="1_an0iv"]
 [ext_resource type="Texture2D" uid="uid://l81otf8ategx" path="res://assets/tilemapv3_1.png" id="2_wwi60"]

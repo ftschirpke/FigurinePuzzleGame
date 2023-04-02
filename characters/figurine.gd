@@ -1,6 +1,7 @@
 extends Sprite2D
 
 @onready var speed: int = Settings.figurine_speed * 60
+@onready var movement_arrows: Control = $MovementArrows
 
 @export var id: int
 
@@ -10,6 +11,7 @@ var target: Vector2 = Vector2.ZERO
 
 signal figurine_selected(figurine_id: int)
 signal figurine_stops_moving(figurine_id: int)
+signal movement_arrow_pressed(direction: Vector2)
 
 func _ready() -> void:
     deselect()
@@ -21,6 +23,7 @@ func select() -> void:
 func deselect() -> void:
     selected = false
     frame = id
+    movement_arrows.set_visibility()
 
 func move(to: Vector2) -> void:
     moving = true
@@ -39,3 +42,15 @@ func _physics_process(delta: float) -> void:
 func _on_select_figurine_button_pressed() -> void:
     if not selected:
         emit_signal("figurine_selected", id)
+
+func _on_up_arrow_pressed() -> void:
+    emit_signal("movement_arrow_pressed", Vector2.UP)
+
+func _on_left_arrow_pressed() -> void:
+    emit_signal("movement_arrow_pressed", Vector2.LEFT)
+
+func _on_right_arrow_pressed() -> void:
+    emit_signal("movement_arrow_pressed", Vector2.RIGHT)
+
+func _on_down_arrow_pressed() -> void:
+    emit_signal("movement_arrow_pressed", Vector2.DOWN)
