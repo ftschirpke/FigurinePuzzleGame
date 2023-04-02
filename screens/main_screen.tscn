@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://6xqa0gfcxm8j"]
+[gd_scene load_steps=6 format=3 uid="uid://6xqa0gfcxm8j"]
 
 [ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_ltgfb"]
 [ext_resource type="PackedScene" uid="uid://dbymyrhou3o5x" path="res://user_interface/ui_background.tscn" id="2_y7kps"]
 [ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="3_gg6av"]
 [ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="4_g1dom"]
+
+[sub_resource type="GDScript" id="GDScript_lbbwb"]
+script/source = "extends Control
+
+func _ready() -> void:
+    if not Settings.file_found:
+        Settings.determine_default_values()
+"
 
 [node name="MainScreen" type="Control"]
 layout_mode = 3
@@ -13,6 +21,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ltgfb")
+script = SubResource("GDScript_lbbwb")
 
 [node name="Background" parent="." instance=ExtResource("2_y7kps")]
 layout_mode = 1

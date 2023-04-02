@@ -18,11 +18,14 @@ run/stretch/aspect="keep"
 run/size/viewport_height=1620
 run/size/viewport_width=2880
 
+[autoload]
+
+Settings="*res://settings.gd"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 

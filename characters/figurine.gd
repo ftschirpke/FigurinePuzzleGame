@@ -1,7 +1,8 @@
 extends Sprite2D
 
+@onready var speed: int = Settings.figurine_speed * 60
+
 @export var id: int
-@export var speed: int = 12000
 
 var selected: bool = false
 var moving: bool = false

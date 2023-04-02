@@ -1,12 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://fqwdklrh0vmr"]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_puwdp"]
 [ext_resource type="PackedScene" uid="uid://dbymyrhou3o5x" path="res://user_interface/ui_background.tscn" id="2_t01c0"]
 [ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="3_e3h0d"]
-[ext_resource type="Script" path="res://screens/SettingsMenu.gd" id="3_g0jso"]
 [ext_resource type="Script" path="res://screens/video_settings.gd" id="4_2dpqc"]
 [ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="4_afnu8"]
-[ext_resource type="Script" path="res://screens/GameplaySettings.gd" id="7_6tjhf"]
+[ext_resource type="Script" path="res://user_interface/settings/setting_hoverable.gd" id="6_ffag6"]
+[ext_resource type="Script" path="res://screens/gameplay_settings.gd" id="7_6tjhf"]
 
 [node name="SettingsScreen" type="Control"]
 layout_mode = 3
@@ -38,7 +38,7 @@ text = "Settings"
 
 [node name="SettingsMenu" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-script = ExtResource("3_g0jso")
+theme_override_constants/separation = 40
 
 [node name="SettingsCategories" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu"]
 layout_mode = 2
@@ -56,6 +56,7 @@ next_scene_path = "res://screens/main_screen.tscn"
 layout_mode = 2
 
 [node name="SettingsValues" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu"]
+custom_minimum_size = Vector2(900, 0)
 layout_mode = 2
 
 [node name="VideoSettings" type="GridContainer" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues"]
@@ -63,11 +64,14 @@ layout_mode = 2
 columns = 2
 script = ExtResource("4_2dpqc")
 
-[node name="ScreenModeLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+[node name="ScreenModeLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" node_paths=PackedStringArray("description_label")]
 layout_mode = 2
-text = "Mode"
+size_flags_horizontal = 3
+text = "Display Mode"
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../SettingsDescriptions/ScreenModeDescription")
 
-[node name="ScreenModeButton" type="OptionButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+[node name="ScreenModeButton" type="OptionButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" node_paths=PackedStringArray("description_label")]
 layout_mode = 2
 item_count = 4
 popup/item_0/text = "Fullscreen"
@@ -78,37 +82,57 @@ popup/item_2/text = "Windowed"
 popup/item_2/id = 2
 popup/item_3/text = "Borderless Windowed"
 popup/item_3/id = 3
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../SettingsDescriptions/ScreenModeDescription")
 
-[node name="AspectRatioLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+[node name="ScreenResolutionLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" node_paths=PackedStringArray("description_label")]
 layout_mode = 2
-text = "Aspect Ratio"
+size_flags_horizontal = 3
+text = "Resolution"
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../SettingsDescriptions/ScreenResolutionDescription")
 
-[node name="AspectRatioButton" type="OptionButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings"]
+[node name="ScreenResolutionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" node_paths=PackedStringArray("description_label")]
 layout_mode = 2
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../SettingsDescriptions/ScreenResolutionDescription")
 
 [node name="GameplaySettings" type="GridContainer" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues"]
 layout_mode = 2
-columns = 3
+columns = 2
 script = ExtResource("7_6tjhf")
 
-[node name="FigurineMoveSpeedLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
+[node name="FigurineSpeedLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings" node_paths=PackedStringArray("description_label")]
 layout_mode = 2
-text = "Figurine Speed: "
+size_flags_horizontal = 3
+text = "Figurine Speed"
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../SettingsDescriptions/FigurineSpeedDescription")
 
-[node name="FigurineMoveSpeedValueLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
+[node name="FigurineSpeedValue" type="HBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
 layout_mode = 2
-text = "600"
+size_flags_horizontal = 3
+
+[node name="FigurineSpeedValueLabel" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineSpeedValue" node_paths=PackedStringArray("description_label")]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "10"
 horizontal_alignment = 2
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../../SettingsDescriptions/FigurineSpeedDescription")
 
-[node name="FigurineMoveSpeedSlider" type="HSlider" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings"]
+[node name="FigurineSpeedSlider" type="HSlider" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineSpeedValue" node_paths=PackedStringArray("description_label")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-min_value = 100.0
-max_value = 10000.0
-step = 50.0
-value = 600.0
+min_value = 4.0
+max_value = 200.0
+value = 10.0
 exp_edit = true
+rounded = true
+ticks_on_borders = true
+script = ExtResource("6_ffag6")
+description_label = NodePath("../../../../SettingsDescriptions/FigurineSpeedDescription")
 
 [node name="SettingsDescriptions" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SettingsMenu"]
 layout_mode = 2
@@ -118,22 +142,48 @@ size_flags_horizontal = 3
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Fullscreen: Game fills the whole screen (exclusive)
-Borderless Fullscreen: Game fills the whole screen (non-exclusive)
-Windowed: Play the game in a window
-Borderless Windowed: Play the game in a borderless window"
+text = "Fullscreen:
+Game fills the whole screen (exclusive)
 
-[node name="AspectRatioDescription" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsDescriptions"]
+Borderless Fullscreen:
+Fullscreen but non-exclusive
+
+Windowed:
+Play the game in a window
+
+Borderless Windowed:
+Play the game in a borderless window
+
+Default value: Fullscreen"
+autowrap_mode = 2
+
+[node name="ScreenResolutionDescription" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsDescriptions"]
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Caution: This game is designed for screen with an 16:9 aspect ratio with the resolution 1920x1080 in mind. While other resolutions and aspect ratios work, they might not look nearly as good. Especially lower resolutions will lead to a great reduction in quality."
+text = "When you are playing windowed, you can set the resolution of the window. When in fullscreen mode, the game automatically chooses the native resolution of your screen.
+
+Caution: This game is designed for an aspect ratio of 16:9 with the resolution 1920x1080 in mind. While other resolutions and aspect ratios are supported, they might not look nearly as good. Lower Resolution are especially affected by this decrease in graphics quality.
+
+Default value: 1600x900 for windowed, native screen resolution for fullscreen"
 autowrap_mode = 2
 
+[node name="FigurineSpeedDescription" type="Label" parent="MarginContainer/VBoxContainer/SettingsMenu/SettingsDescriptions"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Set the speed at which the figurines move across the board.
+
+The speed value equals the amount of tiles a figurine can move over per second.
+With a speed of 10, a figurine moves over 10 tiles per second or 1 tile every 0.1 seconds.
+
+Default value: 10"
+autowrap_mode = 3
+
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" method="_on_screen_mode_button_item_selected"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_screen_mode_mouse_entered"]
-[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_screen_mode_mouse_exited"]
-[connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/AspectRatioButton" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" method="_on_aspect_ratio_button_item_selected"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/AspectRatioButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_aspect_ratio_mouse_entered"]
-[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/AspectRatioButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_aspect_ratio_mouse_exited"]
-[connection signal="value_changed" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineMoveSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings" method="_on_figurine_move_speed_slider_value_changed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenResolutionButton" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings" method="_on_screen_resolution_button_item_selected"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenResolutionButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_entered_setting" binds= ["ScreenResolution"]]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/VideoSettings/ScreenResolutionButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_exited_setting" binds= ["ScreenResolution"]]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineSpeedValue/FigurineSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_entered_setting" binds= ["FigurineSpeed"]]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineSpeedValue/FigurineSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_exited_setting" binds= ["FigurineSpeed"]]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings/FigurineSpeedValue/FigurineSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu/SettingsValues/GameplaySettings" method="_on_figurine_move_speed_slider_value_changed"]

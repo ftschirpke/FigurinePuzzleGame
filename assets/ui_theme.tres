@@ -3,9 +3,13 @@
 [resource]
 default_font_size = 24
 Button/font_sizes/font_size = 40
+GridContainer/constants/h_separation = 10
+GridContainer/constants/v_separation = 10
+HBoxContainer/constants/separation = 30
 Label/font_sizes/font_size = 40
 MarginContainer/constants/margin_bottom = 70
 MarginContainer/constants/margin_left = 70
 MarginContainer/constants/margin_right = 70
 MarginContainer/constants/margin_top = 70
 OptionButton/font_sizes/font_size = 40
+VBoxContainer/constants/separation = 10

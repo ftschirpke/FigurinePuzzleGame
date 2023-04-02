@@ -10,7 +10,7 @@
 [sub_resource type="Gradient" id="Gradient_bjjju"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0.681416)
-colors = PackedColorArray(0.160784, 0, 0, 1)
+colors = PackedColorArray(0.0666667, 0.137255, 0.286275, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_87i67"]
 gradient = SubResource("Gradient_bjjju")
@@ -161,6 +161,12 @@ text = "Selected Figurine:"
 
 [node name="Control" type="Control" parent="MarginContainer/VBox/SelectedFigurineContainer"]
 layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBox/SelectedFigurineContainer/Control"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+color = Color(0.890196, 0.768627, 0.517647, 1)
 
 [node name="SelectedFigurine" type="Sprite2D" parent="MarginContainer/VBox/SelectedFigurineContainer/Control"]
 position = Vector2(30, 30)
