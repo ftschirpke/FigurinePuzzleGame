@@ -280,6 +280,7 @@ func spawn_figurines() -> void:
         new_figurine.position = Vector2(x,y) * 60
         new_figurine.figurine_selected.connect(_on_figurine_selected)
         new_figurine.figurine_stops_moving.connect(_on_figurine_stops_moving)
+        new_figurine.movement_arrow_pressed.connect(move_input_pressed)
         grid.setXY(x, y, GridPos.FIGURINE)
     selected_figurine = figurines[0]
     selected_figurine.select()
@@ -320,7 +321,12 @@ func clear_target(target_pos: Vector2) -> void:
 func update_target_amount() -> void:
     targets_left_label.text = str(len(targets))
 
+func turn_off_movement_arrows() -> void:
+    selected_figurine.movement_arrows.set_visibility()
+
 func turn_on_movement_arrows() -> void:
+    if not Settings.show_movement_arrows:
+        return
     var pos: Vector2 = selected_figurine.position / 60
     var up: bool = not grid.wallAbove(pos.x, pos.y) and grid.getVec(pos + Vector2.UP) != GridPos.FIGURINE
     var left: bool = not grid.wallLeft(pos.x, pos.y) and grid.getVec(pos + Vector2.LEFT) != GridPos.FIGURINE
@@ -395,7 +401,7 @@ func move_input_pressed(input_vec: Vector2) -> void:
 func _set_ignore_input(value: bool) -> void:
     ignore_input = value
     if ignore_input:
-        selected_figurine.movement_arrows.set_visibility()
+        turn_off_movement_arrows()
     else:
         turn_on_movement_arrows()
 
@@ -405,6 +411,18 @@ func _process(delta: float) -> void:
     var input_vec: Vector2 = Input.get_vector("mvleft", "mvright", "mvup", "mvdown")
     if abs(input_vec.x + input_vec.y) == 1:
         # diagonal movement not allowed
-        move_input_pressed(input_vec)
-        
-    
+        move_input_pressed(input_vec)    
+
+func update_gameplay_settings() -> void:
+    for figurine in figurines:
+        figurine.update_speed()
+
+func update_ui_settings() -> void:
+    if Settings.show_movement_arrows:
+        turn_on_movement_arrows()
+    else:
+        turn_off_movement_arrows()
+
+func _on_pause_overlay_settings_changed() -> void:
+    update_gameplay_settings()
+    update_ui_settings()

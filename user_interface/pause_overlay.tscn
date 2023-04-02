@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://22al3bhe56tx"]
+[gd_scene load_steps=6 format=3 uid="uid://22al3bhe56tx"]
 
 [ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="1_170x4"]
 [ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_kll1m"]
 [ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="2_6qsh3"]
 [ext_resource type="Script" path="res://user_interface/pause_overlay.gd" id="2_pp5k4"]
+[ext_resource type="PackedScene" uid="uid://bab7xy1nl366o" path="res://screens/settings_screen.tscn" id="5_peocu"]
 
 [node name="PauseOverlay" type="Control"]
 process_mode = 3
@@ -55,17 +56,22 @@ size_flags_vertical = 4
 layout_mode = 2
 text = "Continue"
 
-[node name="SettingsButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("1_170x4")]
-layout_mode = 2
-text = "Settings"
-next_scene_path = "res://screens/settings_screen.tscn"
-
 [node name="MainMenuButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("1_170x4")]
 layout_mode = 2
 text = "Main Menu"
 next_scene_path = "res://screens/main_screen.tscn"
 
+[node name="SettingsButton" type="Button" parent="PausedMenu/ButtonsContainer"]
+layout_mode = 2
+text = "Settings"
+
 [node name="QuitButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("2_6qsh3")]
 layout_mode = 2
 
+[node name="SettingsScreen" parent="." instance=ExtResource("5_peocu")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="PausedMenu/ButtonsContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="PausedMenu/ButtonsContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="visibility_changed" from="SettingsScreen" to="." method="_on_settings_screen_visibility_changed"]

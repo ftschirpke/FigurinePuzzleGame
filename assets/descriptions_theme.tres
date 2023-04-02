@@ -1,4 +1,4 @@
-[gd_resource type="Theme" format=3 uid="uid://ctbox2lr6umai"]
+[gd_resource type="Theme" format=3 uid="uid://qs4insvqglwj"]
 
 [resource]
 default_font_size = 24
@@ -10,11 +10,10 @@ HBoxContainer/constants/separation = 30
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0)
-Label/font_sizes/font_size = 40
+Label/font_sizes/font_size = 24
 MarginContainer/constants/margin_bottom = 70
 MarginContainer/constants/margin_left = 70
 MarginContainer/constants/margin_right = 70
 MarginContainer/constants/margin_top = 70
 OptionButton/font_sizes/font_size = 40
-TabContainer/font_sizes/font_size = 24
 VBoxContainer/constants/separation = 10

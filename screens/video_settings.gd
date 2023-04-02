@@ -5,7 +5,6 @@ extends GridContainer
 
 var screen_size: Vector2
 var screen_size_id: int
-var last_windowed_size_id: int = 6
 
 func _ready() -> void:    
     screen_size = DisplayServer.screen_get_size()
@@ -34,11 +33,11 @@ func _on_screen_mode_button_item_selected(index: int) -> void:
 
     if fullscreen:
         if was_windowed_before:
-            last_windowed_size_id = screen_resolution_button.selected
+            Settings.last_windowed_size_id = screen_resolution_button.selected
         screen_resolution_button.select(screen_size_id)
         screen_resolution_button.disabled = true
     else:
         screen_resolution_button.disabled = false
         if not was_windowed_before:
-            screen_resolution_button.select(last_windowed_size_id)
+            screen_resolution_button.select(Settings.last_windowed_size_id)
 

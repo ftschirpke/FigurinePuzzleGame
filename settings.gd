@@ -1,6 +1,6 @@
 extends Node
 
-@onready var settings_file: String = "user://settings.dat"
+@onready var settings_file: String = "user://settings.save"
 
 @onready var viewport: Viewport = get_viewport()
 @onready var window: Window = get_viewport().get_window()
@@ -10,11 +10,12 @@ var file_found: bool = false
 # gameplay settings
 var figurine_speed: int = 10
 
+# ui settings
+var show_movement_arrows: bool = true
+
 # video settings
-var screen_mode_id: int = -1:
-    set = _set_screen_mode
-var screen_resolution_id: int = -1:
-    set = _set_screen_resolution
+var screen_mode_id: int = -1: set = _set_screen_mode
+var screen_resolution_id: int = -1: set = _set_screen_resolution
 
 var last_windowed_size_id: int = 6
 
@@ -95,12 +96,14 @@ func load_settings() -> void:
     var data: Dictionary = file.get_var()
     file.close()
 
-    extract_gameplay_settings(data["gameplay"])
-    extract_video_settings(data["video"])
+    extract_gameplay_settings(data.get("gameplay", {}))
+    extract_video_settings(data.get("video", {}))
+
 
 func save_settings() -> void:
     var data: Dictionary = {
         "gameplay": create_gameplay_settings(),
+        "ui": create_ui_settings(),
         "video": create_video_settings(),
     }
 
@@ -109,19 +112,27 @@ func save_settings() -> void:
     file.close()
 
 func extract_gameplay_settings(gameplay_settings: Dictionary) -> void:
-    figurine_speed = gameplay_settings["figurine_speed"]
+    figurine_speed = gameplay_settings.get("figurine_speed", 10)
 
 func create_gameplay_settings() -> Dictionary:
     return {
         "figurine_speed": figurine_speed,
     }
 
+func extract_ui_settings(ui_settings: Dictionary) -> void:
+    show_movement_arrows = ui_settings.get("show_movement_arrows", true)
+
+func create_ui_settings() -> Dictionary:
+    return {
+        "show_movement_arrows": show_movement_arrows
+    }
+
 func extract_video_settings(video_settings: Dictionary) -> void:
     # CAREFUL: order of resolution and mode is important!
-    screen_resolution_id = video_settings["screen_resolution_id"]
-    screen_mode_id = video_settings["screen_mode_id"]
+    screen_resolution_id = video_settings.get("screen_resolution_id", -1)
+    screen_mode_id = video_settings.get("screen_mode_id", -1)
 
-    last_windowed_size_id = video_settings["last_windowed_size_id"]
+    last_windowed_size_id = video_settings.get("last_windowed_size_id", 6)
 
 func create_video_settings() -> Dictionary:
     return {
@@ -129,3 +140,4 @@ func create_video_settings() -> Dictionary:
         "screen_resolution_id": screen_resolution_id,
         "last_windowed_size_id": last_windowed_size_id,
     }
+    

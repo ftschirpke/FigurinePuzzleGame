@@ -6,7 +6,6 @@ extends Control
 @onready var down_arrow: TextureButton = $DownArrow
 
 func set_visibility(up: bool = false, left: bool = false, right: bool = false, down: bool = false) -> void:
-    print("set ", up, left, right, down)
     up_arrow.visible = up
     left_arrow.visible = left
     right_arrow.visible = right

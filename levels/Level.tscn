@@ -187,3 +187,5 @@ horizontal_alignment = 1
 
 [node name="PauseOverlay" parent="UserInterface" instance=ExtResource("6_bi04v")]
 visible = false
+
+[connection signal="settings_changed" from="UserInterface/PauseOverlay" to="." method="_on_pause_overlay_settings_changed"]

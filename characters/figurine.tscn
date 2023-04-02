@@ -24,6 +24,7 @@ anchors_preset = 0
 script = ExtResource("3_gtau1")
 
 [node name="UpArrow" type="TextureButton" parent="MovementArrows"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = -32.0
 offset_right = 50.0
@@ -32,6 +33,7 @@ texture_normal = ExtResource("3_ivo78")
 texture_pressed = ExtResource("4_0lcmn")
 
 [node name="LeftArrow" type="TextureButton" parent="MovementArrows"]
+layout_mode = 0
 offset_left = -32.0
 offset_top = 50.0
 offset_right = 8.0
@@ -41,6 +43,7 @@ texture_normal = ExtResource("3_ivo78")
 texture_pressed = ExtResource("4_0lcmn")
 
 [node name="RightArrow" type="TextureButton" parent="MovementArrows"]
+layout_mode = 0
 offset_left = 91.0
 offset_top = 10.0
 offset_right = 131.0
@@ -50,6 +53,7 @@ texture_normal = ExtResource("3_ivo78")
 texture_pressed = ExtResource("4_0lcmn")
 
 [node name="DownArrow" type="TextureButton" parent="MovementArrows"]
+layout_mode = 0
 offset_left = 50.0
 offset_top = 92.0
 offset_right = 90.0

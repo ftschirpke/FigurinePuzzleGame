@@ -16,6 +16,9 @@ signal movement_arrow_pressed(direction: Vector2)
 func _ready() -> void:
     deselect()
 
+func update_speed() -> void:
+    speed = Settings.figurine_speed * 60
+
 func select() -> void:
     selected = true
     frame = id + 8
