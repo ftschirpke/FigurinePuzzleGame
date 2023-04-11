@@ -6,7 +6,7 @@ extends GridContainer
 var screen_size: Vector2
 var screen_size_id: int
 
-func _ready() -> void:    
+func _ready() -> void:
     screen_size = DisplayServer.screen_get_size()
  
     var resolution: Vector2

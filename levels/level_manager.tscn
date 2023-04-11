@@ -1,0 +1,139 @@
+[gd_scene load_steps=10 format=3 uid="uid://gvgbg8vswyt3"]
+
+[ext_resource type="Script" path="res://levels/level_manager.gd" id="1_hvrpa"]
+[ext_resource type="PackedScene" uid="uid://r0am7lxu8axj" path="res://levels/level.tscn" id="2_smuwf"]
+[ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="3_6w2uu"]
+[ext_resource type="PackedScene" uid="uid://22al3bhe56tx" path="res://user_interface/pause_overlay.tscn" id="3_g2bup"]
+[ext_resource type="PackedScene" uid="uid://dbymyrhou3o5x" path="res://user_interface/ui_background.tscn" id="3_uuyg4"]
+[ext_resource type="Script" path="res://levels/results_table.gd" id="4_klifk"]
+[ext_resource type="Theme" uid="uid://d3d313mgivwvi" path="res://assets/table_theme.tres" id="5_1x346"]
+[ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="7_xs58m"]
+[ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="8_1nykg"]
+
+[node name="LevelManager" type="Node2D"]
+script = ExtResource("1_hvrpa")
+
+[node name="Level1" parent="." instance=ExtResource("2_smuwf")]
+
+[node name="UserInterface" type="CanvasLayer" parent="."]
+
+[node name="FinishedScreen" type="Control" parent="UserInterface"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_6w2uu")
+
+[node name="Background" parent="UserInterface/FinishedScreen" instance=ExtResource("3_uuyg4")]
+layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UserInterface/FinishedScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UserInterface/FinishedScreen/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+
+[node name="CongratulationsLabel" type="Label" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Congratulations, you solved %s puzzles correctly!"
+
+[node name="ResultsTable" type="GridContainer" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+theme = ExtResource("5_1x346")
+columns = 5
+script = ExtResource("4_klifk")
+
+[node name="HeaderNo" type="Label" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+layout_mode = 2
+text = "#"
+horizontal_alignment = 1
+
+[node name="VerticalLine1" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+custom_minimum_size = Vector2(2, 2)
+layout_mode = 2
+
+[node name="SeedHeader" type="Label" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+layout_mode = 2
+text = "Seed"
+horizontal_alignment = 1
+
+[node name="VerticalLine2" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+custom_minimum_size = Vector2(2, 2)
+layout_mode = 2
+
+[node name="MovesMadeHeader" type="Label" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+layout_mode = 2
+text = "Moves Made"
+horizontal_alignment = 1
+
+[node name="HorizontalLine1" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="HorizontalLine2" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+layout_mode = 2
+
+[node name="HorizontalLine3" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+custom_minimum_size = Vector2(2, 2)
+layout_mode = 2
+
+[node name="HorizontalLine4" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+layout_mode = 2
+
+[node name="HorizontalLine5" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable"]
+custom_minimum_size = Vector2(2, 2)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+
+[node name="Buttons" type="VBoxContainer" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RestartButton" type="Button" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+text = "Restart"
+
+[node name="MainMenuButton" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/Buttons" instance=ExtResource("7_xs58m")]
+layout_mode = 2
+text = "Main Menu"
+next_scene_path = "res://screens/main_screen.tscn"
+
+[node name="QuitButton" parent="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/Buttons" instance=ExtResource("8_1nykg")]
+layout_mode = 2
+
+[node name="PauseOverlay" parent="UserInterface" instance=ExtResource("3_g2bup")]
+visible = false
+
+[node name="CongratulationsTimer" type="Timer" parent="."]
+
+[connection signal="level_solved" from="Level1" to="." method="_on_current_level_solved"]
+[connection signal="ready" from="Level1" to="." method="_on_current_level_ready"]
+[connection signal="visibility_changed" from="UserInterface/FinishedScreen" to="." method="_on_finished_screen_visibility_changed"]
+[connection signal="pressed" from="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/Buttons/RestartButton" to="." method="restart"]
+[connection signal="give_up" from="UserInterface/PauseOverlay" to="." method="_on_pause_overlay_give_up"]
+[connection signal="restart" from="UserInterface/PauseOverlay" to="." method="_on_pause_overlay_restart"]
+[connection signal="settings_changed" from="UserInterface/PauseOverlay" to="Level1" method="_on_pause_overlay_settings_changed"]
+[connection signal="timeout" from="CongratulationsTimer" to="." method="_on_congratulations_timer_timeout"]

@@ -33,10 +33,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -309.0
-offset_top = -337.0
-offset_right = 306.0
-offset_bottom = 44.0
+offset_left = -307.5
+offset_top = -287.0
+offset_right = 307.5
+offset_bottom = 191.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -56,6 +56,14 @@ size_flags_vertical = 4
 layout_mode = 2
 text = "Continue"
 
+[node name="RestartButton" type="Button" parent="PausedMenu/ButtonsContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="GiveUpButton" type="Button" parent="PausedMenu/ButtonsContainer"]
+layout_mode = 2
+text = "Skip to Results"
+
 [node name="MainMenuButton" parent="PausedMenu/ButtonsContainer" instance=ExtResource("1_170x4")]
 layout_mode = 2
 text = "Main Menu"
@@ -73,5 +81,7 @@ visible = false
 layout_mode = 1
 
 [connection signal="pressed" from="PausedMenu/ButtonsContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="PausedMenu/ButtonsContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PausedMenu/ButtonsContainer/GiveUpButton" to="." method="_on_give_up_button_pressed"]
 [connection signal="pressed" from="PausedMenu/ButtonsContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="visibility_changed" from="SettingsScreen" to="." method="_on_settings_screen_visibility_changed"]

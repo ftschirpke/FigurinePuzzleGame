@@ -1,23 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://6xqa0gfcxm8j"]
 
 [ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_ltgfb"]
+[ext_resource type="Script" path="res://screens/main_screen.gd" id="2_himu1"]
 [ext_resource type="PackedScene" uid="uid://dbymyrhou3o5x" path="res://user_interface/ui_background.tscn" id="2_y7kps"]
-[ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="3_gg6av"]
+[ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="3_hrsex"]
 [ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="4_g1dom"]
 [ext_resource type="PackedScene" uid="uid://bab7xy1nl366o" path="res://screens/settings_screen.tscn" id="5_nha4j"]
-
-[sub_resource type="GDScript" id="GDScript_lbbwb"]
-script/source = "extends Control
-
-@onready var settings_screen: Control = $SettingsScreen
-
-func _ready() -> void:
-    if not Settings.file_found:
-        Settings.determine_default_values()
-
-func _on_settings_button_pressed() -> void:
-    settings_screen.visible = true
-"
 
 [node name="MainScreen" type="Control"]
 layout_mode = 3
@@ -27,7 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ltgfb")
-script = SubResource("GDScript_lbbwb")
+script = ExtResource("2_himu1")
 
 [node name="Background" parent="." instance=ExtResource("2_y7kps")]
 layout_mode = 1
@@ -58,10 +46,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="PlayButton" parent="MainMenu/ButtonsContainer" instance=ExtResource("3_gg6av")]
+[node name="PlayDaily7Button" parent="MainMenu/ButtonsContainer" instance=ExtResource("3_hrsex")]
 layout_mode = 2
 text = "Play"
-next_scene_path = "res://levels/Level.tscn"
+next_scene_path = "res://levels/puzzle_types/daily_seven.tscn"
 
 [node name="SettingsButton" type="Button" parent="MainMenu/ButtonsContainer"]
 layout_mode = 2

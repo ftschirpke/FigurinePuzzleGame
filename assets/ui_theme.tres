@@ -16,5 +16,5 @@ MarginContainer/constants/margin_left = 70
 MarginContainer/constants/margin_right = 70
 MarginContainer/constants/margin_top = 70
 OptionButton/font_sizes/font_size = 40
-TabContainer/font_sizes/font_size = 24
+TabContainer/font_sizes/font_size = 30
 VBoxContainer/constants/separation = 10

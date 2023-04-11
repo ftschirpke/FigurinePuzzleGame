@@ -1,0 +1,46 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://d3d313mgivwvi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_prphx"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxkni"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+bg_color = Color(0.607843, 0.607843, 0.607843, 0.333333)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1durc"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quhfk"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+bg_color = Color(0.607843, 0.607843, 0.607843, 0.603922)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qscb2"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g1mug"]
+bg_color = Color(0.027451, 0.0705882, 0.168627, 0.788235)
+
+[resource]
+Button/styles/focus = SubResource("StyleBoxEmpty_prphx")
+Button/styles/hover = SubResource("StyleBoxFlat_lxkni")
+Button/styles/normal = SubResource("StyleBoxEmpty_1durc")
+Button/styles/pressed = SubResource("StyleBoxFlat_quhfk")
+GridContainer/constants/h_separation = 0
+GridContainer/constants/v_separation = 0
+Label/styles/normal = SubResource("StyleBoxEmpty_qscb2")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_g1mug")

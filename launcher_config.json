@@ -1,0 +1,5 @@
+{
+    "alias": "Figurine Puzzler",
+    "short_description": "This small puzzle game is derived from the board game Richochet Robots.",
+    "description": "This small puzzle game is derived from the board game Richochet Robots.\n\nThe concept is simple: You are moving figurines across a board trying to place them on targets. The problem is, they don't stop moving when you want them to. They only stop moving if they hit a wall or another figurine. Only then can you control them again."
+}

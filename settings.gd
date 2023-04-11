@@ -2,7 +2,6 @@ extends Node
 
 @onready var settings_file: String = "user://settings.save"
 
-@onready var viewport: Viewport = get_viewport()
 @onready var window: Window = get_viewport().get_window()
 
 var file_found: bool = false
@@ -18,6 +17,9 @@ var screen_mode_id: int = -1: set = _set_screen_mode
 var screen_resolution_id: int = -1: set = _set_screen_resolution
 
 var last_windowed_size_id: int = 6
+
+const default_resolution_id: int = 6
+const default_mode_id: int = 0
 
 var screen_resolutions: Dictionary = {
      0: Vector2(1024,  768),
@@ -44,7 +46,7 @@ func _set_screen_resolution(id: int) -> void:
     if id == screen_resolution_id:
         return
     screen_resolution_id = id
-    viewport.size = screen_resolutions[id]
+    window.size = screen_resolutions[id]
     if window.mode == Window.MODE_WINDOWED:
         last_windowed_size_id = id
 
@@ -74,19 +76,12 @@ func _set_screen_mode(id: int) -> void:
 func _ready() -> void:
     load_settings()
     if not file_found:
-        determine_default_values()
+        set_default_values()
 
-func determine_default_values() -> void:
-    var current_resolution: Vector2 = viewport.size
+func set_default_values() -> void:
+    screen_resolution_id = 6
+    screen_mode_id = 0
 
-    screen_resolution_id = screen_resolutions.find_key(current_resolution)
-    
-    if window.mode == Window.MODE_EXCLUSIVE_FULLSCREEN:
-        screen_mode_id = 0
-    elif window.mode == Window.MODE_FULLSCREEN:
-        screen_mode_id = 1
-    elif window.mode == Window.MODE_WINDOWED:
-        screen_mode_id = 2 + int(window.borderless)
 
 func load_settings() -> void:
     file_found = FileAccess.file_exists(settings_file)
@@ -97,6 +92,7 @@ func load_settings() -> void:
     file.close()
 
     extract_gameplay_settings(data.get("gameplay", {}))
+    extract_ui_settings(data.get("ui", {}))
     extract_video_settings(data.get("video", {}))
 
 

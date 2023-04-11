@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqbadgdmddleq"]
+
+[ext_resource type="Script" path="res://levels/puzzle_types/daily_seven.gd" id="1_wdl13"]
+[ext_resource type="PackedScene" uid="uid://gvgbg8vswyt3" path="res://levels/level_manager.tscn" id="2_u8sbk"]
+
+[node name="DailySeven" type="Node2D"]
+script = ExtResource("1_wdl13")
+
+[node name="LevelManager" parent="." instance=ExtResource("2_u8sbk")]

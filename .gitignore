@@ -5,6 +5,7 @@
 # export specific ignores
 **.cfg
 **.exe
+**.pck
 
 # ignore files for asset creation
 **.kra
