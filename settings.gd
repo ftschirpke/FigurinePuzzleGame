@@ -1,6 +1,6 @@
 extends Node
 
-@onready var settings_file: String = "user://settings.save"
+var settings_file: String = "user://settings.save"
 
 @onready var window: Window = get_viewport().get_window()
 

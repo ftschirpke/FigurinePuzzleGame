@@ -8,5 +8,5 @@ func _ready() -> void:
     move_speed_value_label.text = str(Settings.figurine_speed)
 
 func _on_figurine_move_speed_slider_value_changed(value: float) -> void:
-    Settings.figurine_speed = value
+    Settings.figurine_speed = roundi(value)
     move_speed_value_label.text = str(value)

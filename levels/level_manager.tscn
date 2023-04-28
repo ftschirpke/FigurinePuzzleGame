@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://gvgbg8vswyt3"]
+[gd_scene load_steps=10 format=3 uid="uid://dqr6tprcx5d2i"]
 
 [ext_resource type="Script" path="res://levels/level_manager.gd" id="1_hvrpa"]
 [ext_resource type="PackedScene" uid="uid://r0am7lxu8axj" path="res://levels/level.tscn" id="2_smuwf"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="8_1nykg"]
 
 [node name="LevelManager" type="Node2D"]
+scale = Vector2(0.996415, 1)
 script = ExtResource("1_hvrpa")
 
 [node name="Level1" parent="." instance=ExtResource("2_smuwf")]
@@ -130,7 +131,7 @@ visible = false
 [node name="CongratulationsTimer" type="Timer" parent="."]
 
 [connection signal="level_solved" from="Level1" to="." method="_on_current_level_solved"]
-[connection signal="ready" from="Level1" to="." method="_on_current_level_ready"]
+[connection signal="pause_level" from="Level1" to="UserInterface/PauseOverlay" method="_on_level_pause_level"]
 [connection signal="visibility_changed" from="UserInterface/FinishedScreen" to="." method="_on_finished_screen_visibility_changed"]
 [connection signal="pressed" from="UserInterface/FinishedScreen/MarginContainer/HBoxContainer/Buttons/RestartButton" to="." method="restart"]
 [connection signal="give_up" from="UserInterface/PauseOverlay" to="." method="_on_pause_overlay_give_up"]

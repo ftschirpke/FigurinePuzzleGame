@@ -143,6 +143,7 @@ description_label = NodePath("../../SettingsDescriptions/ShowMovementArrowsDescr
 [node name="ShowMovementArrowsCheckButton" type="CheckButton" parent="MarginContainer/VBoxContainer/SettingsMenu/UI/UI/UISettings" node_paths=PackedStringArray("description_label")]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
+alignment = 1
 script = ExtResource("6_ffag6")
 description_label = NodePath("../../SettingsDescriptions/ShowMovementArrowsDescription")
 
@@ -234,11 +235,7 @@ Default value: 1600x900 for windowed, native screen resolution for fullscreen"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/TitleBar/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="exiting_program" from="MarginContainer/VBoxContainer/TitleBar/QuitButton" to="." method="_on_exiting_program"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/Gameplay/Gameplay/GameplaySettings/FigurineSpeedValue/FigurineSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_entered_setting"]
-[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/Gameplay/Gameplay/GameplaySettings/FigurineSpeedValue/FigurineSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_exited_setting"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/SettingsMenu/Gameplay/Gameplay/GameplaySettings/FigurineSpeedValue/FigurineSpeedSlider" to="MarginContainer/VBoxContainer/SettingsMenu/Gameplay/Gameplay/GameplaySettings" method="_on_figurine_move_speed_slider_value_changed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/SettingsMenu/UI/UI/UISettings/ShowMovementArrowsCheckButton" to="MarginContainer/VBoxContainer/SettingsMenu/UI/UI/UISettings" method="_on_show_movement_arrows_check_button_toggled"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/Video/Video/VideoSettings/ScreenModeButton" to="MarginContainer/VBoxContainer/SettingsMenu/Video/Video/VideoSettings" method="_on_screen_mode_button_item_selected"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/SettingsMenu/Video/Video/VideoSettings/ScreenResolutionButton" to="MarginContainer/VBoxContainer/SettingsMenu/Video/Video/VideoSettings" method="_on_screen_resolution_button_item_selected"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/SettingsMenu/Video/Video/VideoSettings/ScreenResolutionButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_entered_setting"]
-[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/SettingsMenu/Video/Video/VideoSettings/ScreenResolutionButton" to="MarginContainer/VBoxContainer/SettingsMenu" method="_on_mouse_exited_setting"]

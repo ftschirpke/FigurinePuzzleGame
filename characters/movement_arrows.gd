@@ -1,4 +1,5 @@
 extends Control
+class_name FigurineMovementArrows
 
 @onready var up_arrow: TextureButton = $UpArrow
 @onready var left_arrow: TextureButton = $LeftArrow

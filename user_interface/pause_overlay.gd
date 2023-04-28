@@ -1,4 +1,5 @@
 extends Control
+class_name PauseOverlay
 
 @onready var viewport: Viewport = get_viewport()
 @onready var scene_tree: SceneTree = get_tree()
@@ -19,6 +20,10 @@ func _unhandled_input(event: InputEvent) -> void:
     if pause_allowed and event.is_action_pressed("pause"):
         paused = not paused
         viewport.set_input_as_handled()
+
+func _on_level_pause_level():
+    if pause_allowed:
+        paused = true
 
 func _set_paused(value: bool) -> void:
     paused = value

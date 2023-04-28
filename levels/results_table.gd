@@ -1,4 +1,5 @@
 extends GridContainer
+class_name ResultsTable
 
 var added: Array[Node] = []
 var amount_of_rows: int = 0
@@ -8,12 +9,12 @@ func reset() -> void:
     for added_node in added:
         remove_child(added_node)
 
-func add_pair(seed: String, val: int) -> void:
+func add_pair(puzzle_seed: String, val: int) -> void:
     var val_str = str(val) if val >= 0 else "-"
     amount_of_rows += 1
     add_label(str(amount_of_rows))
     add_seperator()
-    add_seed_button(seed)
+    add_seed_button(puzzle_seed)
     add_seperator()
     add_label(val_str)
 
@@ -30,11 +31,11 @@ func add_label(text: String) -> Label:
     added.append(new_label)
     return new_label
 
-func add_seed_button(seed: String) -> Button:
-    var copy_seed_to_clipboard: Callable = func() -> void: DisplayServer.clipboard_set(seed)
+func add_seed_button(puzzle_seed: String) -> Button:
+    var copy_seed_to_clipboard: Callable = func() -> void: DisplayServer.clipboard_set(puzzle_seed)
     var new_button: Button = Button.new()
     new_button.tooltip_text = "copy seed to clipboard"
-    new_button.text = seed
+    new_button.text = puzzle_seed
     new_button.pressed.connect(copy_seed_to_clipboard)
     add_child(new_button)
     added.append(new_button)

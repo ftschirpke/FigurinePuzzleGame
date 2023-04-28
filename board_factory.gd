@@ -145,7 +145,7 @@ func generate_from_config(config: Config) -> Board:
         _spawn_random_figurine(board)
     
     var possible_target_positions: Array = _determine_target_positions(board)
-    var base_target_difficulty: int = config.difficulty / 2
+    var base_target_difficulty: int = config.difficulty >> 1
     var target_difficulty_alternator: int = config.difficulty % 2 + 1
     
     for i in range(target_amount):
@@ -165,11 +165,12 @@ func _generate_random_walls(board: Board) -> void:
             
     for i in range(8):
         var idx: int = randi_range(0, 47)
+        @warning_ignore("integer_division")
         var x: int = idx / 7 + 2
         var y: int = idx % 7 + 2
         if i % 4 >= 2:
             x = 17 - x
-        if i / 4 == 1:
+        if floori(i / 4.0) == 1:
             y = 17 - y
 
         var xoff: int = randi_range(0, 1)

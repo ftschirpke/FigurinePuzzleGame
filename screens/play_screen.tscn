@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0c1447du67wf"]
+
+[ext_resource type="Theme" uid="uid://ctbox2lr6umai" path="res://assets/ui_theme.tres" id="1_q1o0r"]
+[ext_resource type="PackedScene" uid="uid://dbymyrhou3o5x" path="res://user_interface/ui_background.tscn" id="3_6e71w"]
+[ext_resource type="PackedScene" uid="uid://el4iqjqvdch5" path="res://user_interface/change_scene_button.tscn" id="4_vxvlt"]
+
+[node name="PlayScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_q1o0r")
+
+[node name="Background" parent="." instance=ExtResource("3_6e71w")]
+layout_mode = 1
+
+[node name="PlayMenu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -309.0
+offset_top = -270.0
+offset_right = 306.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="PlayMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "Play"
+horizontal_alignment = 1
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="PlayMenu"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PlayDaily7Button" parent="PlayMenu/ButtonsContainer" instance=ExtResource("4_vxvlt")]
+layout_mode = 2
+text = "Daily 7"
+next_scene_path = "res://levels/puzzle_types/daily_seven.tscn"

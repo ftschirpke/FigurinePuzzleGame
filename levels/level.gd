@@ -1,12 +1,13 @@
 extends Node2D
 
 signal level_solved
+signal pause_level
 
-@onready var name_label: Label = $MarginContainer/VBox/NameLabel
-@onready var congratulations_label: Label = $MarginContainer/VBox/MarginContainer/CongratulationsLabel
-@onready var moves_made_label: Label = $MarginContainer/VBox/MovesMadeContainer/MovesMade
-@onready var targets_left_label: Label = $MarginContainer/VBox/TargetsLeftContainer/TargetsLeft
-@onready var selected_figurine_sprite: Sprite2D = $MarginContainer/VBox/SelectedFigurineContainer/Control/SelectedFigurine
+@onready var name_label: Label = $MarginContainer/RightSide/DescriptionBox/NameLabel
+@onready var congratulations_label: Label = $MarginContainer/RightSide/DescriptionBox/MarginContainer/CongratulationsLabel
+@onready var moves_made_label: Label = $MarginContainer/RightSide/DescriptionBox/MovesMadeContainer/MovesMade
+@onready var targets_left_label: Label = $MarginContainer/RightSide/DescriptionBox/TargetsLeftContainer/TargetsLeft
+@onready var selected_figurine_sprite: Sprite2D = $MarginContainer/RightSide/DescriptionBox/SelectedFigurineContainer/Control/SelectedFigurine
 
 @onready var wall_tilemap: TileMap = $TileMap
 @onready var target_tilemap: TileMap = $TargetTiles
@@ -14,8 +15,8 @@ signal level_solved
 var figurine_scene = preload("res://characters/figurine.tscn")
 
 var board: Board: set = _set_new_board
-var figurines: Array = []
-var selected_figurine = null
+var figurines: Array[Figurine] = []
+var selected_figurine: Figurine = null
 var targets: Dictionary = {}
 
 var moves_made: int = 0: set = _set_moves_made
@@ -30,6 +31,9 @@ var puzzle_name: String: set = _set_puzzle_name
 func _set_puzzle_name(new_name: String) -> void:
     puzzle_name = new_name
     name_label.text = puzzle_name
+
+func _on_pause_button_pressed() -> void:
+    emit_signal("pause_level")
 
 func determine_atlas_vec(x: int, y: int) -> Vector2:
     if board.get_xy(x, y) == Board.Pos.WALL:
@@ -137,7 +141,7 @@ func place_figurines() -> void:
     figurines = []
     var figurine_id: int = 0
     for figurine_pos in board.figurine_starting_positions:
-        var new_figurine = figurine_scene.instantiate()
+        var new_figurine: Figurine = figurine_scene.instantiate() as Figurine
         add_child(new_figurine)
         figurines.append(new_figurine)
         new_figurine.id = figurine_id
@@ -163,6 +167,7 @@ func place_targets() -> void:
         place_target(target_pos, target_id)
 
 func place_target(target_pos: Vector2, target_id: int) -> void:
+    @warning_ignore("integer_division")
     var atlas_vec: Vector2 = Vector2(target_id % 4, target_id / 4)
     if target_id == -1:
         atlas_vec = Vector2(3, 1)
@@ -185,11 +190,12 @@ func turn_off_movement_arrows() -> void:
 func turn_on_movement_arrows() -> void:
     if not Settings.show_movement_arrows:
         return
-    var pos: Vector2 = selected_figurine.position / 60
-    var up: bool = not board.wall_above(pos.x, pos.y) and board.get_vec(pos + Vector2.UP) != Board.Pos.FIGURINE
-    var left: bool = not board.wall_left(pos.x, pos.y) and board.get_vec(pos + Vector2.LEFT) != Board.Pos.FIGURINE
-    var right: bool = not board.wall_right(pos.x, pos.y) and board.get_vec(pos + Vector2.RIGHT) != Board.Pos.FIGURINE
-    var down: bool = not board.wall_below(pos.x, pos.y) and board.get_vec(pos + Vector2.DOWN) != Board.Pos.FIGURINE
+    @warning_ignore("integer_division")
+    var pos: Vector2i = selected_figurine.position / 60
+    var up: bool = not board.wall_above(pos.x, pos.y) and board.get_vec(pos + Vector2i.UP) != Board.Pos.FIGURINE
+    var left: bool = not board.wall_left(pos.x, pos.y) and board.get_vec(pos + Vector2i.LEFT) != Board.Pos.FIGURINE
+    var right: bool = not board.wall_right(pos.x, pos.y) and board.get_vec(pos + Vector2i.RIGHT) != Board.Pos.FIGURINE
+    var down: bool = not board.wall_below(pos.x, pos.y) and board.get_vec(pos + Vector2i.DOWN) != Board.Pos.FIGURINE
     selected_figurine.movement_arrows.set_visibility(up, left, right, down)
 
 func _on_figurine_selected(figurine_id: int) -> void:
@@ -201,7 +207,7 @@ func _on_figurine_selected(figurine_id: int) -> void:
     turn_on_movement_arrows()
     selected_figurine_sprite.frame = figurine_id
 
-func _on_figurine_stops_moving(figurine_id: int) -> void:
+func _on_figurine_stops_moving(_figurine_id: int) -> void:
     if will_hit_target:
         clear_target(will_hit_target_at)
         targets.erase(will_hit_target_at)
@@ -238,8 +244,11 @@ func check_target_hit(new_figurine_board_pos: Vector2) -> bool:
 func _input(event: InputEvent) -> void:
     if ignore_input:
         return
-    if event.is_action_pressed("switch_figurine"):
+    if event.is_action_pressed("next_figurine"):
         var new_figurine_id: int = (selected_figurine.id + 1) % len(figurines)
+        _on_figurine_selected(new_figurine_id)
+    elif event.is_action_pressed("previous_figurine"):
+        var new_figurine_id: int = (selected_figurine.id - 1) % len(figurines)
         _on_figurine_selected(new_figurine_id)
 
 func move_input_pressed(input_vec: Vector2) -> void:
@@ -264,7 +273,7 @@ func _set_ignore_input(value: bool) -> void:
     else:
         turn_on_movement_arrows()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if ignore_input:
         return
     var input_vec: Vector2 = Input.get_vector("mvleft", "mvright", "mvup", "mvdown")
