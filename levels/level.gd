@@ -167,6 +167,7 @@ func place_targets() -> void:
         place_target(target_pos, target_id)
 
 func place_target(target_pos: Vector2, target_id: int) -> void:
+    @warning_ignore("integer_division")
     var atlas_vec: Vector2 = Vector2(target_id % 4, target_id / 4)
     if target_id == -1:
         atlas_vec = Vector2(3, 1)
@@ -189,6 +190,7 @@ func turn_off_movement_arrows() -> void:
 func turn_on_movement_arrows() -> void:
     if not Settings.show_movement_arrows:
         return
+    @warning_ignore("integer_division")
     var pos: Vector2i = selected_figurine.position / 60
     var up: bool = not board.wall_above(pos.x, pos.y) and board.get_vec(pos + Vector2i.UP) != Board.Pos.FIGURINE
     var left: bool = not board.wall_left(pos.x, pos.y) and board.get_vec(pos + Vector2i.LEFT) != Board.Pos.FIGURINE

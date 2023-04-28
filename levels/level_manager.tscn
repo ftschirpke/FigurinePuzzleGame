@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b4k72m7v08ql0" path="res://user_interface/quit_button.tscn" id="8_1nykg"]
 
 [node name="LevelManager" type="Node2D"]
+scale = Vector2(0.996415, 1)
 script = ExtResource("1_hvrpa")
 
 [node name="Level1" parent="." instance=ExtResource("2_smuwf")]
