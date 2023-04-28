@@ -3,7 +3,7 @@ class_name LevelManager
 
 @onready var current_level = $Level1
 @onready var finished_screen: Control = $UserInterface/FinishedScreen
-@onready var results_table: GridContainer = $UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable
+@onready var results_table: ResultsTable = $UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable
 @onready var congratulations_label: Label = $UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/CongratulationsLabel
 @onready var congratulations_timer: Timer = $CongratulationsTimer
 @onready var pause_overlay: PauseOverlay = $UserInterface/PauseOverlay

@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://gyxdykw1xmwu"]
 
-[ext_resource type="Texture2D" uid="uid://dsplarfl87to1" path="res://assets/robotsv0.png" id="1_g6rkn"]
+[ext_resource type="Texture2D" uid="uid://b8ct25j4r2n3j" path="res://assets/robotsv0.png" id="1_g6rkn"]
 [ext_resource type="Script" path="res://characters/figurine.gd" id="2_3ux4y"]
 [ext_resource type="Script" path="res://characters/movement_arrows.gd" id="3_gtau1"]
-[ext_resource type="Texture2D" uid="uid://0bv8axephfuc" path="res://assets/movement_arrow.png" id="3_ivo78"]
-[ext_resource type="Texture2D" uid="uid://kjxqvcageas4" path="res://assets/movement_arrow_clicked.png" id="4_0lcmn"]
+[ext_resource type="Texture2D" uid="uid://b01ky8h5mbst4" path="res://assets/movement_arrow.png" id="3_ivo78"]
+[ext_resource type="Texture2D" uid="uid://hdquu2k4q5bm" path="res://assets/movement_arrow_clicked.png" id="4_0lcmn"]
 
 [node name="Figurine" type="Sprite2D"]
 texture = ExtResource("1_g6rkn")
@@ -12,6 +12,7 @@ centered = false
 hframes = 4
 vframes = 4
 script = ExtResource("2_3ux4y")
+id = null
 
 [node name="SelectFigurineButton" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)

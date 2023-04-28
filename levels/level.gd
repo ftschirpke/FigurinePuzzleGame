@@ -15,8 +15,8 @@ signal pause_level
 var figurine_scene = preload("res://characters/figurine.tscn")
 
 var board: Board: set = _set_new_board
-var figurines: Array = []
-var selected_figurine = null
+var figurines: Array[Figurine] = []
+var selected_figurine: Figurine = null
 var targets: Dictionary = {}
 
 var moves_made: int = 0: set = _set_moves_made
@@ -189,11 +189,11 @@ func turn_off_movement_arrows() -> void:
 func turn_on_movement_arrows() -> void:
     if not Settings.show_movement_arrows:
         return
-    var pos: Vector2 = selected_figurine.position / 60
-    var up: bool = not board.wall_above(pos.x, pos.y) and board.get_vec(pos + Vector2.UP) != Board.Pos.FIGURINE
-    var left: bool = not board.wall_left(pos.x, pos.y) and board.get_vec(pos + Vector2.LEFT) != Board.Pos.FIGURINE
-    var right: bool = not board.wall_right(pos.x, pos.y) and board.get_vec(pos + Vector2.RIGHT) != Board.Pos.FIGURINE
-    var down: bool = not board.wall_below(pos.x, pos.y) and board.get_vec(pos + Vector2.DOWN) != Board.Pos.FIGURINE
+    var pos: Vector2i = selected_figurine.position / 60
+    var up: bool = not board.wall_above(pos.x, pos.y) and board.get_vec(pos + Vector2i.UP) != Board.Pos.FIGURINE
+    var left: bool = not board.wall_left(pos.x, pos.y) and board.get_vec(pos + Vector2i.LEFT) != Board.Pos.FIGURINE
+    var right: bool = not board.wall_right(pos.x, pos.y) and board.get_vec(pos + Vector2i.RIGHT) != Board.Pos.FIGURINE
+    var down: bool = not board.wall_below(pos.x, pos.y) and board.get_vec(pos + Vector2i.DOWN) != Board.Pos.FIGURINE
     selected_figurine.movement_arrows.set_visibility(up, left, right, down)
 
 func _on_figurine_selected(figurine_id: int) -> void:
@@ -205,7 +205,7 @@ func _on_figurine_selected(figurine_id: int) -> void:
     turn_on_movement_arrows()
     selected_figurine_sprite.frame = figurine_id
 
-func _on_figurine_stops_moving(figurine_id: int) -> void:
+func _on_figurine_stops_moving(_figurine_id: int) -> void:
     if will_hit_target:
         clear_target(will_hit_target_at)
         targets.erase(will_hit_target_at)
@@ -271,7 +271,7 @@ func _set_ignore_input(value: bool) -> void:
     else:
         turn_on_movement_arrows()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if ignore_input:
         return
     var input_vec: Vector2 = Input.get_vector("mvleft", "mvright", "mvup", "mvdown")
