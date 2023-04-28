@@ -6,7 +6,7 @@ class_name LevelManager
 @onready var results_table: GridContainer = $UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/ResultsTable
 @onready var congratulations_label: Label = $UserInterface/FinishedScreen/MarginContainer/HBoxContainer/VBoxContainer/CongratulationsLabel
 @onready var congratulations_timer: Timer = $CongratulationsTimer
-@onready var pause_overlay: Node = $UserInterface/PauseOverlay
+@onready var pause_overlay: PauseOverlay = $UserInterface/PauseOverlay
 
 const congratulations_text: String = "%s, you solved %s puzzles correctly%s"
 

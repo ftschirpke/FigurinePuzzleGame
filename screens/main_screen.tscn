@@ -46,10 +46,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="PlayDaily7Button" parent="MainMenu/ButtonsContainer" instance=ExtResource("3_hrsex")]
+[node name="ChangeSceneButton" parent="MainMenu/ButtonsContainer" instance=ExtResource("3_hrsex")]
 layout_mode = 2
 text = "Play"
-next_scene_path = "res://levels/puzzle_types/daily_seven.tscn"
+next_scene_path = "res://screens/play_screen.tscn"
 
 [node name="SettingsButton" type="Button" parent="MainMenu/ButtonsContainer"]
 layout_mode = 2

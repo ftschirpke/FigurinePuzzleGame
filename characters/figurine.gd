@@ -1,4 +1,5 @@
 extends Sprite2D
+class_name Figurine
 
 @onready var speed: int = Settings.figurine_speed * 60
 @onready var movement_arrows: Control = $MovementArrows

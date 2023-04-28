@@ -1,12 +1,13 @@
 extends Node2D
 
 signal level_solved
+signal pause_level
 
-@onready var name_label: Label = $MarginContainer/VBox/NameLabel
-@onready var congratulations_label: Label = $MarginContainer/VBox/MarginContainer/CongratulationsLabel
-@onready var moves_made_label: Label = $MarginContainer/VBox/MovesMadeContainer/MovesMade
-@onready var targets_left_label: Label = $MarginContainer/VBox/TargetsLeftContainer/TargetsLeft
-@onready var selected_figurine_sprite: Sprite2D = $MarginContainer/VBox/SelectedFigurineContainer/Control/SelectedFigurine
+@onready var name_label: Label = $MarginContainer/RightSide/DescriptionBox/NameLabel
+@onready var congratulations_label: Label = $MarginContainer/RightSide/DescriptionBox/MarginContainer/CongratulationsLabel
+@onready var moves_made_label: Label = $MarginContainer/RightSide/DescriptionBox/MovesMadeContainer/MovesMade
+@onready var targets_left_label: Label = $MarginContainer/RightSide/DescriptionBox/TargetsLeftContainer/TargetsLeft
+@onready var selected_figurine_sprite: Sprite2D = $MarginContainer/RightSide/DescriptionBox/SelectedFigurineContainer/Control/SelectedFigurine
 
 @onready var wall_tilemap: TileMap = $TileMap
 @onready var target_tilemap: TileMap = $TargetTiles
@@ -30,6 +31,9 @@ var puzzle_name: String: set = _set_puzzle_name
 func _set_puzzle_name(new_name: String) -> void:
     puzzle_name = new_name
     name_label.text = puzzle_name
+
+func _on_pause_button_pressed() -> void:
+    emit_signal("pause_level")
 
 func determine_atlas_vec(x: int, y: int) -> Vector2:
     if board.get_xy(x, y) == Board.Pos.WALL:
@@ -137,7 +141,7 @@ func place_figurines() -> void:
     figurines = []
     var figurine_id: int = 0
     for figurine_pos in board.figurine_starting_positions:
-        var new_figurine = figurine_scene.instantiate()
+        var new_figurine: Figurine = figurine_scene.instantiate() as Figurine
         add_child(new_figurine)
         figurines.append(new_figurine)
         new_figurine.id = figurine_id
@@ -238,8 +242,11 @@ func check_target_hit(new_figurine_board_pos: Vector2) -> bool:
 func _input(event: InputEvent) -> void:
     if ignore_input:
         return
-    if event.is_action_pressed("switch_figurine"):
+    if event.is_action_pressed("next_figurine"):
         var new_figurine_id: int = (selected_figurine.id + 1) % len(figurines)
+        _on_figurine_selected(new_figurine_id)
+    elif event.is_action_pressed("previous_figurine"):
+        var new_figurine_id: int = (selected_figurine.id - 1) % len(figurines)
         _on_figurine_selected(new_figurine_id)
 
 func move_input_pressed(input_vec: Vector2) -> void:
